@@ -1,6 +1,8 @@
 Ex Final Diseño de Experimentos
 ================
 
+## Brayan Alonso Reyes Sepulveda, cod: 1950182
+
 ## Analisis
 
 Aplicaremos un analisis factorial (AFE) a la base de datos “DISE” la
@@ -8,10 +10,9 @@ cual contiene los datos de un grupo de aficionados a los videojuegos en
 donde se midieron 7 variables con 30 observaciones y cada columna
 recopila los siguientes datos:
 
-GENERO: da un conteo del genero (femenino = 1 y masculino = 0) de cada
-sujeto de la poblacion muestral.
+ID: da un conteo del numero de encuestados.
 
-Edad: la respectiva edad en de cada persona en la poblacion muestral.
+Edad: la respectiva edad de cada persona en la poblacion muestral.
 
 Hrs Juego\*Dia: cantidad de horas que invierte jugando algun videojuego
 en horario diurno.
@@ -27,13 +28,6 @@ momento del dia o noche decide jugar algun videojuego.
 
 inversion monetaria: cantidad de dinero en pesos colombianos que ha
 gastado en algun o algunos videojuegos.
-
-## Hipotesis
-
-1.  los hombres tienen tendencia a invertir mayor cantidad de tiempo y
-    dinero en videojuegos con respecto a las mujeres.
-2.  las mujeres prefieren en mayor medida jugar en dispositivos android
-    por la versatilidad, que en dispositivos windows.
 
 ## importar base de datos
 
@@ -271,20 +265,6 @@ fa.parallel(r, fm="pa", n.obs = 30, ylabel = "Eigenvalues")
     ## Warning in fac(r = r, nfactors = nfactors, n.obs = n.obs, rotate = rotate, : An
     ## ultra-Heywood case was detected. Examine the results carefully
 
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## The estimated weights for the factor scores are probably incorrect. Try a
-    ## different factor score estimation method.
-
-    ## Warning in fac(r = r, nfactors = nfactors, n.obs = n.obs, rotate = rotate, : An
-    ## ultra-Heywood case was detected. Examine the results carefully
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## The estimated weights for the factor scores are probably incorrect. Try a
-    ## different factor score estimation method.
-
-    ## Warning in fac(r = r, nfactors = nfactors, n.obs = n.obs, rotate = rotate, : An
-    ## ultra-Heywood case was detected. Examine the results carefully
-
 ![](EX-FINAL_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
     ## Parallel analysis suggests that the number of factors =  0  and the number of components =  2
@@ -302,14 +282,6 @@ fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## The estimated weights for the factor scores are probably incorrect. Try a
-    ## different factor score estimation method.
-
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
     ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
     ## The estimated weights for the factor scores are probably incorrect. Try a
@@ -320,7 +292,6 @@ fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
     ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
     ## The estimated weights for the factor scores are probably incorrect. Try a
@@ -331,23 +302,6 @@ fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## The estimated weights for the factor scores are probably incorrect. Try a
-    ## different factor score estimation method.
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## An ultra-Heywood case was detected. Examine the results carefully
-
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## The estimated weights for the factor scores are probably incorrect. Try a
-    ## different factor score estimation method.
-
-    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
-    ## An ultra-Heywood case was detected. Examine the results carefully
-
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
@@ -360,6 +314,11 @@ fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
     ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
     ## The estimated weights for the factor scores are probably incorrect. Try a
@@ -369,14 +328,30 @@ fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
     ## An ultra-Heywood case was detected. Examine the results carefully
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
+
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
+
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
 ![](EX-FINAL_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-    ## Parallel analysis suggests that the number of factors =  0  and the number of components =  0
+    ## Parallel analysis suggests that the number of factors =  0  and the number of components =  1
 
 Con el metodo de las componentes principales no se recomienda extraer
 ningun factor.
@@ -391,7 +366,7 @@ fa.parallel(r, fm="ml", n.obs = 30, ylabel = "Eigenvalues")
 
 ![](EX-FINAL_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-    ## Parallel analysis suggests that the number of factors =  0  and the number of components =  2
+    ## Parallel analysis suggests that the number of factors =  0  and the number of components =  1
 
 Con el metodo de la maxima verosimilitud no se recomienda extraer
 factores.
@@ -418,8 +393,8 @@ paran(r, iterations = 5000, graph = T)
     ## Component   Adjusted    Unadjusted    Estimated 
     ##             Eigenvalue  Eigenvalue    Bias 
     ## -------------------------------------------------- 
-    ## 1           1.092560    2.843290      1.750729
-    ## 2           1.188126    1.891501      0.703375
+    ## 1           1.084920    2.843290      1.758369
+    ## 2           1.193415    1.891501      0.698086
     ## -------------------------------------------------- 
     ## 
     ## Adjusted eigenvalues > 1 indicate dimensions to retain.

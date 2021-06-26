@@ -7,13 +7,15 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Brayan Alonso Reyes Sepulveda, cod: 1950182
+
 ## Analisis 
 
 Aplicaremos un analisis factorial (AFE) a la base de datos "DISE" la cual contiene los datos de un grupo de aficionados a los videojuegos en donde se midieron 7 variables con 30 observaciones y cada columna recopila los siguientes datos:
 
-GENERO: da un conteo del genero (femenino = 1 y masculino = 0) de cada sujeto de la poblacion muestral.
+ID: da un conteo del numero de encuestados.
 
-Edad: la respectiva edad en de cada persona en la poblacion muestral.
+Edad: la respectiva edad de cada persona en la poblacion muestral.
 
 Hrs Juego*Dia: cantidad de horas que invierte jugando algun videojuego en horario diurno.
 
@@ -24,11 +26,6 @@ Sistema O.: sistema operativo en el cual prefiere jugar, siendo Android= 1 y Win
 Dias*Semana: cantidad de dias por semana en los que durante algun momento del dia o noche decide jugar algun videojuego.
 
 inversion monetaria: cantidad de dinero en pesos colombianos que ha gastado en algun o algunos videojuegos.
-
-## Hipotesis
-
-1. los hombres tienen tendencia a invertir mayor cantidad de tiempo y dinero en videojuegos con respecto a las mujeres.
-2. las mujeres prefieren en mayor medida jugar en dispositivos android por la versatilidad, que en dispositivos windows.
 
 
 ## importar base de datos
