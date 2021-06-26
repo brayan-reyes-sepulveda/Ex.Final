@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Ex Final Diseño de Experimentos"
 output: github_document
 ---
 
@@ -7,24 +7,250 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## GitHub Documents
+## Analisis 
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+Aplicaremos un analisis factorial (AFE) a la base de datos "DISE" la cual contiene los datos de un grupo de aficionados a los videojuegos en donde se midieron 7 variables con 30 observaciones y cada columna recopila los siguientes datos:
 
-## Including Code
+GENERO: da un conteo del genero (femenino = 1 y masculino = 0) de cada sujeto de la poblacion muestral.
 
-You can include R code in the document as follows:
+Edad: la respectiva edad en de cada persona en la poblacion muestral.
 
-```{r cars}
-summary(cars)
+Hrs Juego*Dia: cantidad de horas que invierte jugando algun videojuego en horario diurno.
+
+Hrs Juego*Noche: cantidad de horas que invierte jugando algun videojuego en horario nocturno.
+
+Sistema O.: sistema operativo en el cual prefiere jugar, siendo Android= 1 y Windows= 0.
+
+Dias*Semana: cantidad de dias por semana en los que durante algun momento del dia o noche decide jugar algun videojuego.
+
+inversion monetaria: cantidad de dinero en pesos colombianos que ha gastado en algun o algunos videojuegos.
+
+## Hipotesis
+
+1. los hombres tienen tendencia a invertir mayor cantidad de tiempo y dinero en videojuegos con respecto a las mujeres.
+2. las mujeres prefieren en mayor medida jugar en dispositivos android por la versatilidad, que en dispositivos windows.
+
+
+## importar base de datos
+
+
+```{r DISE}
+library(readxl)
+datos<- read_excel("C:/Users/Reyes/Desktop/UFPS/DISE.xlsx")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Tipificacion  
+```{r}
+datost<- datos
+datost<- scale(datost, center = T, scale = T)
+datost<- as.data.frame(datost)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Normalidad Multivariante  
+
+H0: Normalidad mutivariante  
+H1: no normalidad multivariante  
+Confianza: 95%  
+Alfa = 5% = 0.05  
+P value > alfa: no se rechaza la H0 (Normalidad multivariante)  
+P value < alfa: se rechaza la H0 (no normalidad) 
+
+```{r}
+library(MVN)
+mvn(datost[2:7])
+```
+
+dado que P value > alfa, no se rechaza la H0 por lo tanto hay normalidad multivariante.  
+
+  
+
+## Matriz de correlaciones  
+H0: Correlacion= 0 (no hay correlacion)  
+H1: Correlacion diferente de 0 (si hay correlacion)  
+es necesario rechazar la H0 para aplicar el AFE.  
+
+
+```{r}
+library(psych)
+corr.test(datost[,2:7])
+correlaciones<- corr.test(datost[,2:7])
+correlaciones$r
+r<- as.matrix(correlaciones$r)
+```
+no se rechaza la H0, pero igual aplicaremos el AFE.
+  
+
+## Indicadores de aplicabilidad del AFE (bondad del ajuste)  
+### contraste de esfericidad de Bartltett  
+
+
+```{r}
+dim(datost)
+cortest.bartlett(r, n=30)
+```
+
+como el P value es menor a alfa, se rechaza la H0, por lo tanto las correlaciones entre cada par de variables es nulo.  
+es decir si es aplicable el AFE.  
+
+### medida de adecuacion muestral de Kaiser, Meyer y Oklin (KMO)  
+se mantiene en el modelo, si el KMO es igual o mayor a 0,7.  
+se elimina una variable del modelo si el KMO es menor a 0.7.  
+```{r}
+KMO(r)
+```
+KMO= 0.47 el modelo es inaceptable
+todas las varibles estan en valores miserables y inaceptables :/ por lo tanto no se recomienda hacer el AFE.  
+
+## Determinacion del numero de factores a extraer.  
+### Metodo de los componentes principales iteradas.  
+
+
+```{r}
+fa.parallel(r, fm="pa", n.obs = 30, ylabel = "Eigenvalues")
+```
+
+Con el metodo de los ejes principales no se extraeria ningun factor.  
+
+### Metodo de los componentes principales.  
+sirve para modelos con normalidad multivariante.  
+
+```{r}
+fa.parallel(r, fm="pc", n.obs = 30, ylabel = "Eigenvalues")
+```
+Con el metodo de las componentes principales no se recomienda extraer ningun factor.  
+
+### Metodo de la maxima verosimilitud.  
+sirve para modelos con normalidad multivariante.  
+
+```{r}
+fa.parallel(r, fm="ml", n.obs = 30, ylabel = "Eigenvalues")
+```
+
+Con el metodo de la maxima verosimilitud no se recomienda extraer factores.  
+
+### Metodo paralelo con iteraciones.  
+sirve para modelos con normalidad multivariante.  
+
+```{r}
+library(MASS)
+library(paran)
+paran(r, iterations = 5000, graph = T)
+```
+
+## Metodos de extraccion de factores.  
+### metodo de analisis de los componentes principales(ACP).  
+
+```{r}
+acp<- principal(r, nfactors = 1, rotate = "none")
+acp
+```
+proportion var = 33%  
+RMSR = 0.19  
+
+
+### metodo de los ejes principales o componentes principales iterados(CPI).  
+
+```{r}
+cpi<- fa(r, nfactors = 1, fm = "pa", rotate = "none", n.obs = 30)
+cpi
+```
+
+proportion var = 22%  
+RMSR = 0.15  
+
+
+### Metodo de la maxima verosimilitud.  
+
+```{r}
+mve<- fa(r, nfactors = 1, fm = "ml", rotate = "none", n.obs = 30)
+mve
+```
+proportion var = 22%  
+RMSR = 0.15 
+
+### Conclusion.  
+como conclusion definimos como el metodo mas optimo aquel que nos de el valor de Proportion var mas alto y el valor de RMSR mas bajo.  
+tambien se debe dejar claro que el valor de proportion var estas sujeto al criterio del investigador en cuanto a la aceptabilidad pero valores muy bajos como en este caso <30% indican que la extraccion de un factor que me correlacione las variables analizadas no es posible para esta base de datos.  
+
+
+## Representacion grafica de los factores extraidos.
+### Metodo de analisis de los componentes principales (ACP)  
+```{r}
+#plot(acp,labels=row.names(r),cex =.7, ylim=c(-.8,.8))
+```
+
+### Metodo de los ejes principales o componentes principales iterados(CPI).  
+
+```{r}
+#plot(cpi, labels = row.names(r), cex =.7, ylim= c(-.8, .8))
+```
+
+### Metodo de la maxima verosimilitud (MVE).   
+
+```{r}
+#plot(mve, labels = row.names(r), cex =1, ylim= c(-.8, .8)) lo dejo como texto ya que como codigo me genera un error :/
+```
+
+
+## Obtencion de las puncuaciones factoriales.  
+### Metodo de analisis de los componentes principales (ACP)  
+```{r}
+acp1<- principal(datost[,2:7], nfactors = 1, rotate = "none", scores= T)
+acp1$scores
+puntuacionesfactoriales_acp<- acp1$scores
+puntuacionesfactoriales_acp<- as.data.frame(puntuacionesfactoriales_acp)
+```
+
+### Metodo de los ejes principales o componentes principales iterados(CPI)  
+```{r}
+cpi1<- fa(datost[,2:7], nfactors = 1, fm = "pa", rotate = "none", n.obs = 30, scores= "regression")
+cpi1$scores
+puntfact_cpi<- acp1$scores
+puntfact_cpi<- as.data.frame(puntfact_cpi)
+```
+
+
+### Metodo de la maxima verosimilitud (MVE)  
+```{r}
+mve1<- fa(datost[,2:7], nfactors = 1, fm = "ml", rotate = "none", n.obs = 30, scores= "regression")
+mve1$scores
+puntfact_mve<- mve1$scores
+puntfact_mve<- as.data.frame(puntfact_mve)
+```
+
+## Obtencion de los factores extraidos.  
+
+#### Para ACP
+```{r}
+factor.scores(r, acp, method = "Thurstone")
+```
+Z1= -0.28Edad + 0.32Hrs.juego.dia + 0.13Hrs.juego.noche + 0.39S.O. + 0.37Dias.semana + 0.10Inversion
+
+
+
+#### Para CPI  
+```{r}
+factor.scores(r, cpi, method = "Thurstone")
+```
+Z1= -0.08Edad + 0.15Hrs.juego.dia + 0.03Hrs.juego.noche + 0.49S.O. + 0.39Dias.semana - 0.04Inversion
+
+
+
+#### Para MVE  
+```{r}
+factor.scores(r, mve, method = "Thurstone")
+```
+Z1= -0.15Edad + 0.18Hrs.juego.dia + 0.04Hrs.juego.noche + 0.45S.O. + 0.30Dias.semana + 0.08Inversion
+
+
+
+## Agregar el factor extraido al dataframe original.  
+
+```{r}
+datos_puntuaciones<- c(datos, puntuacionesfactoriales_acp)
+datos_puntuaciones<- as.data.frame(datos_puntuaciones)
+```
+
+
+
